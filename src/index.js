@@ -38,32 +38,29 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-	let result = '';
-	for (let i = 0; i < expr.length; i += 10) {
-		let decodedSymbol = expr.substring(i,i+10);
-		let key = '';
-		
-		if (decodedSymbol !== '**********') {
-			
-			for (let j = 0; j < decodedSymbol.length; j+=2 ) {
-				let partSymbol = decodedSymbol.substring(j,j+2);
-				
-				if (partSymbol !== '00') {
-					if (partSymbol === '10') {
-						key = key + '.';
-					}
-					else {
-						key = key + '-';
-					}
-				}
-			}
-		result = result + MORSE_TABLE[key];
-		}
-		else {
-					result = result + ' '; 
-		}
-	}
-	return result;
+    let resultString = '';
+    for (i = 0; i < expr.length; i +=10) {
+        let codedSymbol = expr.substring(i, i+10);
+        if (codedSymbol == '**********') {
+            resultString += ' ';
+        }
+        else {
+            let morseSymbol = '';
+            for (j = 0; j < codedSymbol.length; j +=2)
+                {
+                    let dashOrDot = codedSymbol[j] + codedSymbol[j+1];
+                    switch (dashOrDot) {
+                        case '10': morseSymbol += '.';
+                        break;
+                        case '11': morseSymbol += '-';
+                        break;
+                        default: break;
+                    }
+                }
+        resultString += MORSE_TABLE[morseSymbol];
+        }
+    }
+    return resultString;
 }
 
 module.exports = {
